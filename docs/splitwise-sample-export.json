@@ -1,0 +1,52 @@
+{
+  "exported_at": "2026-06-27T14:58:00Z",
+  "owner_name": "Aleeza",
+  "balances": [
+    {
+      "from": "Aleeza",
+      "to": "Zikra",
+      "amount": 42.75,
+      "currency": "USD"
+    },
+    {
+      "from": "Aleeza",
+      "to": "Mariam",
+      "amount": 18.4,
+      "currency": "USD"
+    },
+    {
+      "from": "Samira",
+      "to": "Aleeza",
+      "amount": 9.2,
+      "currency": "USD"
+    }
+  ],
+  "expenses": [
+    {
+      "id": 1001,
+      "description": "Dinner after meeting",
+      "date": "2026-06-22T19:20:00Z",
+      "category": "Dining out",
+      "group_name": "Household",
+      "paid_by": "Zikra",
+      "cost": {
+        "currency_code": "USD",
+        "amount": "67.50"
+      },
+      "shares": [
+        {
+          "name": "Aleeza",
+          "paid_share": "0.00",
+          "owed_share": "33.75",
+          "net_balance": "-33.75"
+        },
+        {
+          "name": "Zikra",
+          "paid_share": "67.50",
+          "owed_share": "33.75",
+          "net_balance": "33.75"
+        }
+      ]
+    }
+  ]
+}
