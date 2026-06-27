@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Naziyah Splitwise Reports</title>
+    <meta
+      name="description"
+      content="Personal non-commercial Splitwise reporting connector for summaries, balances, and expense insights."
+    >
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #1f2933;
+        --muted: #52606d;
+        --line: #d9e2ec;
+        --surface: #f7f9fb;
+        --accent: #147d64;
+        --accent-dark: #0c5f4b;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: #ffffff;
+        line-height: 1.55;
+      }
+
+      main {
+        width: min(920px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 64px 0;
+      }
+
+      header {
+        padding-bottom: 36px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(2rem, 6vw, 4.4rem);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      .lede {
+        max-width: 720px;
+        margin: 0;
+        font-size: 1.18rem;
+        color: var(--muted);
+      }
+
+      section {
+        padding: 34px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 1.28rem;
+      }
+
+      p {
+        max-width: 760px;
+        margin: 0 0 14px;
+      }
+
+      ul {
+        max-width: 760px;
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      li + li {
+        margin-top: 8px;
+      }
+
+      .notice {
+        max-width: 760px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--accent);
+        background: var(--surface);
+        border-radius: 6px;
+      }
+
+      a {
+        color: var(--accent-dark);
+        font-weight: 650;
+      }
+
+      footer {
+        padding-top: 28px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Naziyah Splitwise Reports</h1>
+        <p class="lede">
+          A personal, non-commercial connector that reads Splitwise account data
+          so Naziyah can prepare private expense summaries, balance reports, and
+          spending insights for the account owner.
+        </p>
+      </header>
+
+      <section aria-labelledby="purpose">
+        <h2 id="purpose">Purpose</h2>
+        <p>
+          This application is built for personal use. It connects to Splitwise
+          through the official API with the account owner's explicit
+          authorization, then uses the resulting data to answer questions such
+          as recent spending by group, outstanding balances, monthly totals, and
+          settlement history.
+        </p>
+      </section>
+
+      <section aria-labelledby="data">
+        <h2 id="data">Data Use</h2>
+        <ul>
+          <li>Splitwise data is used only to generate private reports for the authorized account owner.</li>
+          <li>The connector does not sell, publish, or share Splitwise data.</li>
+          <li>API credentials and access tokens are treated as confidential secrets.</li>
+          <li>Stored data, if any, is limited to what is needed for local reporting and debugging.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="status">
+        <h2 id="status">Project Status</h2>
+        <div class="notice">
+          This is a private personal project, not an official Splitwise product.
+          Splitwise has not reviewed, endorsed, or certified this connector.
+        </div>
+      </section>
+
+      <section aria-labelledby="support">
+        <h2 id="support">Support</h2>
+        <p>
+          For questions about this connector, contact the repository owner
+          through GitHub. For Splitwise account or product support, use
+          <a href="https://www.splitwise.com/contact">Splitwise support</a>.
+        </p>
+      </section>
+
+      <footer>
+        <p>Last updated: June 27, 2026.</p>
+      </footer>
+    </main>
+  </body>
+</html>
