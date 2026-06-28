@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -26,11 +26,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Generate latest Splitwise export
+      - name: Generate latest Splitwise export when activity changes
         env:
           SPLITWISE_ACCESS_TOKEN: ${{ secrets.SPLITWISE_ACCESS_TOKEN }}
           SPLITWISE_EXPENSE_LIMIT: "500"
-        run: python3 connector/splitwise_export.py > docs/splitwise-export.live.json
+          PREVIOUS_EXPORT_URL: "https://aleezanooor.github.io/naziyah-splitwise-reports/splitwise-export.live.json"
+        run: python3 connector/splitwise_live_export.py > docs/splitwise-export.live.json
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

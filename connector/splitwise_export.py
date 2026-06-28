@@ -181,12 +181,7 @@ def balance_trails(
     return trails
 
 
-def main() -> int:
-    token = os.environ.get("SPLITWISE_ACCESS_TOKEN")
-    if not token:
-        print("SPLITWISE_ACCESS_TOKEN is required.", file=sys.stderr)
-        return 2
-
+def build_payload(token: str) -> dict[str, Any]:
     current_user = api_get("/get_current_user", token)["user"]
     friends = api_get("/get_friends", token).get("friends", [])
     expenses = fetch_expenses(token)
@@ -200,13 +195,21 @@ def main() -> int:
             [],
         )
 
-    payload = {
+    return {
         "exported_at": datetime.now(timezone.utc).isoformat(),
         "owner_name": person_name(current_user),
         "balances": balances,
         "expenses": summarized_expenses,
     }
 
+
+def main() -> int:
+    token = os.environ.get("SPLITWISE_ACCESS_TOKEN")
+    if not token:
+        print("SPLITWISE_ACCESS_TOKEN is required.", file=sys.stderr)
+        return 2
+
+    payload = build_payload(token)
     json.dump(payload, sys.stdout, indent=2)
     print()
     return 0

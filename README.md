@@ -37,9 +37,11 @@ SPLITWISE_ACCESS_TOKEN
 ```
 
 The workflow runs on pushes to `main`, manually through `workflow_dispatch`, and
-every thirty minutes through GitHub Actions cron. Each run generates
-`splitwise-export.live.json` inside the Pages artifact. The dashboard refreshes
-that file every minute while it is open.
+every five minutes through GitHub Actions cron. Scheduled runs first check
+Splitwise notifications for expense activity since the last full export. The
+workflow regenerates `splitwise-export.live.json` only when an expense was added,
+updated, deleted, undeleted, simplified, or currency-converted. The dashboard
+refreshes that file every minute while it is open.
 
 The passcode screen is a lightweight static gate for casual privacy only. GitHub
 Pages serves static files publicly, so do not treat it as secure storage for
