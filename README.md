@@ -37,7 +37,7 @@ SPLITWISE_ACCESS_TOKEN
 ```
 
 The workflow runs on pushes to `main`, manually through `workflow_dispatch`, and
-every five minutes through GitHub Actions cron. Each run generates
+every thirty minutes through GitHub Actions cron. Each run generates
 `splitwise-export.live.json` inside the Pages artifact. The dashboard refreshes
 that file every minute while it is open.
 
