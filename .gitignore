@@ -4,5 +4,6 @@ __pycache__/
 .env
 .env.*
 splitwise-export.json
+docs/splitwise-export.local.json
 local-data/
 dist/

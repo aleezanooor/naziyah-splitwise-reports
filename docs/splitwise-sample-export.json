@@ -6,19 +6,69 @@
       "from": "Aleeza",
       "to": "Zikra",
       "amount": 42.75,
-      "currency": "USD"
+      "currency": "USD",
+      "expense_trail": [
+        {
+          "expense_id": 1001,
+          "description": "Dinner after meeting",
+          "date": "2026-06-22T19:20:00Z",
+          "category": "Dining out",
+          "group_name": "Household",
+          "paid_by": "Zikra",
+          "amount": 33.75,
+          "currency": "USD",
+          "owner_paid_share": "0.00",
+          "owner_owed_share": "33.75",
+          "friend_name": "Zikra",
+          "friend_paid_share": "67.50",
+          "friend_owed_share": "33.75"
+        },
+        {
+          "expense_id": 1004,
+          "description": "Cleaning supplies",
+          "date": "2026-06-19T12:00:00Z",
+          "category": "Household supplies",
+          "group_name": "Apartment",
+          "paid_by": "Zikra",
+          "amount": 9.0,
+          "currency": "USD",
+          "owner_paid_share": "0.00",
+          "owner_owed_share": "9.00",
+          "friend_name": "Zikra",
+          "friend_paid_share": "18.00",
+          "friend_owed_share": "9.00"
+        }
+      ]
     },
     {
       "from": "Aleeza",
       "to": "Mariam",
       "amount": 18.4,
-      "currency": "USD"
+      "currency": "USD",
+      "expense_trail": [
+        {
+          "expense_id": 1002,
+          "description": "Groceries",
+          "date": "2026-06-20T15:05:00Z",
+          "category": "Groceries",
+          "group_name": "Apartment",
+          "paid_by": "Mariam",
+          "amount": 18.4,
+          "currency": "USD",
+          "owner_paid_share": "0.00",
+          "owner_owed_share": "18.40",
+          "friend_name": "Mariam",
+          "friend_paid_share": "55.20",
+          "friend_owed_share": "18.40"
+        }
+      ]
     },
     {
       "from": "Samira",
       "to": "Aleeza",
       "amount": 9.2,
-      "currency": "USD"
+      "currency": "USD",
+      "expense_trail": []
     }
   ],
   "expenses": [
@@ -45,6 +95,38 @@
           "paid_share": "67.50",
           "owed_share": "33.75",
           "net_balance": "33.75"
+        }
+      ]
+    },
+    {
+      "id": 1002,
+      "description": "Groceries",
+      "date": "2026-06-20T15:05:00Z",
+      "category": "Groceries",
+      "group_name": "Apartment",
+      "paid_by": "Mariam",
+      "cost": {
+        "currency_code": "USD",
+        "amount": "55.20"
+      },
+      "shares": [
+        {
+          "name": "Aleeza",
+          "paid_share": "0.00",
+          "owed_share": "18.40",
+          "net_balance": "-18.40"
+        },
+        {
+          "name": "Mariam",
+          "paid_share": "55.20",
+          "owed_share": "18.40",
+          "net_balance": "36.80"
+        },
+        {
+          "name": "Samira",
+          "paid_share": "0.00",
+          "owed_share": "18.40",
+          "net_balance": "-18.40"
         }
       ]
     }

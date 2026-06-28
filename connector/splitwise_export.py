@@ -17,6 +17,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 API_BASE = "https://secure.splitwise.com/api/v3.0"
+EXPENSE_PAGE_SIZE = 100
 
 
 def api_get(path: str, token: str, params: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -77,6 +78,26 @@ def summarize_expense(expense: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def fetch_expenses(token: str) -> list[dict[str, Any]]:
+    max_expenses = int(os.environ.get("SPLITWISE_EXPENSE_LIMIT", "500"))
+    expenses: list[dict[str, Any]] = []
+
+    for offset in range(0, max_expenses, EXPENSE_PAGE_SIZE):
+        page = api_get(
+            "/get_expenses",
+            token,
+            {
+                "limit": EXPENSE_PAGE_SIZE,
+                "offset": offset,
+            },
+        ).get("expenses", [])
+        expenses.extend(page)
+        if len(page) < EXPENSE_PAGE_SIZE:
+            break
+
+    return expenses[:max_expenses]
+
+
 def summarize_balances(current_user: dict[str, Any], friends: list[dict[str, Any]]) -> list[dict[str, Any]]:
     owner = person_name(current_user)
     balances: list[dict[str, Any]] = []
@@ -102,6 +123,64 @@ def summarize_balances(current_user: dict[str, Any], friends: list[dict[str, Any
     return balances
 
 
+def balance_trails(
+    current_user: dict[str, Any],
+    expenses: list[dict[str, Any]],
+) -> dict[tuple[str, str, str], list[dict[str, Any]]]:
+    owner = person_name(current_user)
+    trails: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+
+    for expense in expenses:
+        summarized = summarize_expense(expense)
+        currency = summarized["cost"]["currency_code"]
+        shares = summarized["shares"]
+        owner_share = next((share for share in shares if share["name"] == owner), None)
+        if not owner_share:
+            continue
+
+        owner_net = as_decimal(owner_share["net_balance"])
+        if owner_net == 0:
+            continue
+
+        for share in shares:
+            name = share["name"]
+            if name == owner:
+                continue
+
+            friend_net = as_decimal(share["net_balance"])
+            if owner_net < 0 and friend_net > 0:
+                payer = owner
+                payee = name
+                amount = min(abs(owner_net), friend_net)
+            elif owner_net > 0 and friend_net < 0:
+                payer = name
+                payee = owner
+                amount = min(owner_net, abs(friend_net))
+            else:
+                continue
+
+            trails.setdefault((payer, payee, currency), []).append({
+                "expense_id": summarized["id"],
+                "description": summarized["description"],
+                "date": summarized["date"],
+                "category": summarized["category"],
+                "group_name": summarized["group_name"],
+                "paid_by": summarized["paid_by"],
+                "amount": float(amount),
+                "currency": currency,
+                "owner_paid_share": owner_share["paid_share"],
+                "owner_owed_share": owner_share["owed_share"],
+                "friend_name": name,
+                "friend_paid_share": share["paid_share"],
+                "friend_owed_share": share["owed_share"],
+            })
+
+    for trail in trails.values():
+        trail.sort(key=lambda item: item.get("date") or "", reverse=True)
+
+    return trails
+
+
 def main() -> int:
     token = os.environ.get("SPLITWISE_ACCESS_TOKEN")
     if not token:
@@ -110,13 +189,22 @@ def main() -> int:
 
     current_user = api_get("/get_current_user", token)["user"]
     friends = api_get("/get_friends", token).get("friends", [])
-    expenses = api_get("/get_expenses", token, {"limit": 100}).get("expenses", [])
+    expenses = fetch_expenses(token)
+    summarized_expenses = [summarize_expense(expense) for expense in expenses]
+    trails = balance_trails(current_user, expenses)
+    balances = summarize_balances(current_user, friends)
+
+    for balance in balances:
+        balance["expense_trail"] = trails.get(
+            (balance["from"], balance["to"], balance["currency"]),
+            [],
+        )
 
     payload = {
         "exported_at": datetime.now(timezone.utc).isoformat(),
         "owner_name": person_name(current_user),
-        "balances": summarize_balances(current_user, friends),
-        "expenses": [summarize_expense(expense) for expense in expenses],
+        "balances": balances,
+        "expenses": summarized_expenses,
     }
 
     json.dump(payload, sys.stdout, indent=2)

@@ -16,6 +16,10 @@ body {
   min-width: 320px;
 }
 
+input {
+  font: inherit;
+}
+
 button,
 .button {
   display: inline-flex;
@@ -53,6 +57,50 @@ button:hover,
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
   padding: 28px 0 48px;
+}
+
+.auth-shell {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.auth-panel {
+  width: min(100%, 520px);
+  padding: 32px;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 16px 50px rgba(31, 41, 55, 0.08);
+}
+
+.auth-panel h1 {
+  margin-bottom: 14px;
+  font-size: clamp(2.2rem, 8vw, 4rem);
+}
+
+.auth-field {
+  display: grid;
+  gap: 8px;
+  margin: 24px 0 14px;
+  color: #435166;
+  font-weight: 800;
+}
+
+.auth-field input {
+  min-height: 46px;
+  width: 100%;
+  border: 1px solid #ccd6df;
+  border-radius: 6px;
+  padding: 0 12px;
+  color: #15212f;
+}
+
+.auth-error {
+  margin: 0 0 14px;
+  color: #9f2d20;
+  font-weight: 700;
 }
 
 .hero {
@@ -97,6 +145,12 @@ h2 {
   letter-spacing: 0;
 }
 
+h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: 0;
+}
+
 .lede {
   max-width: 760px;
   margin-bottom: 0;
@@ -128,6 +182,8 @@ h2 {
 }
 
 .metric,
+.payables,
+.payable-card,
 .settlement-panel,
 .expense-panel {
   border: 1px solid #d9e2ec;
@@ -159,13 +215,82 @@ h2 {
 
 .metric strong {
   display: block;
-  font-size: 1.7rem;
+  font-size: clamp(1.2rem, 2.4vw, 1.7rem);
   line-height: 1.1;
+}
+
+.payables {
+  margin-bottom: 18px;
+  padding: 22px;
+}
+
+.payable-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.payable-card {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  box-shadow: none;
+}
+
+.payable-header,
+.why-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.payable-header strong {
+  color: #0c5f4b;
+  font-size: 1.7rem;
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.why-list {
+  display: grid;
+  gap: 10px;
+}
+
+.why-row {
+  padding-top: 12px;
+  border-top: 1px solid #edf1f5;
+}
+
+.why-row:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.why-row strong {
+  color: #15212f;
+  white-space: nowrap;
+}
+
+.why-title {
+  margin-bottom: 4px;
+  color: #15212f;
+  font-weight: 800;
+}
+
+.trail-note {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid #dbe6ed;
+  border-radius: 6px;
+  background: #f7fafb;
+  color: #536273;
+  font-size: 0.9rem;
 }
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(260px, 330px) minmax(0, 1fr) minmax(260px, 330px);
+  grid-template-columns: minmax(260px, 330px) minmax(0, 1fr);
   gap: 18px;
   align-items: start;
 }
@@ -308,7 +433,7 @@ h2 {
 
 @media (max-width: 1120px) {
   .layout {
-    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+    grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
   }
 }
 
@@ -342,13 +467,17 @@ h2 {
   }
 
   .toolbar,
-  .expense-main {
+  .expense-main,
+  .payable-header,
+  .why-row {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .expense-amount {
+  .expense-amount,
+  .payable-header strong {
     justify-items: start;
+    white-space: normal;
   }
 
   .search,
