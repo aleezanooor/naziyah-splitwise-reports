@@ -5,5 +5,8 @@ __pycache__/
 .env.*
 splitwise-export.json
 docs/splitwise-export.local.json
+*.db
+*.db-shm
+*.db-wal
 local-data/
 dist/

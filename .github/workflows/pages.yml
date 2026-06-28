@@ -31,7 +31,13 @@ jobs:
           SPLITWISE_ACCESS_TOKEN: ${{ secrets.SPLITWISE_ACCESS_TOKEN }}
           SPLITWISE_EXPENSE_LIMIT: "500"
           PREVIOUS_EXPORT_URL: "https://aleezanooor.github.io/naziyah-splitwise-reports/splitwise-export.live.json"
-        run: python3 connector/splitwise_live_export.py > docs/splitwise-export.live.json
+        run: |
+          python3 connector/splitwise_db.py import-url \
+            --db /tmp/splitwise.db \
+            --url "$PREVIOUS_EXPORT_URL" || true
+          python3 connector/splitwise_db.py sync \
+            --db /tmp/splitwise.db \
+            --output docs/splitwise-export.live.json
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
